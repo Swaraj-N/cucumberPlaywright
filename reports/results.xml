@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<testsuite name="Cucumber" time="16.205" tests="4" skipped="0" failures="3" errors="0" timestamp="2026-02-26T09:08:07.818Z">
+  <testcase classname="Login functionality" name="Login with valid credentials" time="2.02">
+    <system-out><![CDATA[Given I navigate to login page..............................................passed
+When I login with "valid" credentials.......................................passed
+Then I should see the home page.............................................passed]]></system-out>
+  </testcase>
+  <testcase classname="Login functionality" name="Login with Invalid Username" time="4.135">
+    <failure type="Error" message="[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed&#xA;&#xA;Locator: locator('//h3[text()=\'Ninza-HRM\']')&#xA;Expected: [32m&quot;Ninza-HRM&quot;[39m&#xA;Timeout: 2000ms&#xA;Error: element(s) not found&#xA;&#xA;Call log:&#xA;[2m  - Expect &quot;to.have.text&quot; with timeout 2000ms[22m&#xA;[2m  - waiting for locator('//h3[text()=\'Ninza-HRM\']')[22m&#xA;"><![CDATA[    at Proxy.<anonymous> (C:\Users\User\Desktop\playwright-cucumber-framework\node_modules\playwright\lib\matchers\expect.js:213:24)
+    at HomePage.<anonymous> (C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:13:7)
+    at C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:8:71
+    at __awaiter (C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:4:12)
+    at HomePage.verifyHomePage (C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:19:16)
+    at World.<anonymous> (C:\Users\User\Desktop\playwright-cucumber-framework\src\step-definitions\example.steps.ts:48:18)
+    at C:\Users\User\Desktop\playwright-cucumber-framework\src\step-definitions\example.steps.ts:8:71]]></failure>
+    <system-out><![CDATA[Given I navigate to login page..............................................passed
+When I login with "invalidUser" credentials.................................passed
+Then I should not see the home page.........................................failed]]></system-out>
+  </testcase>
+  <testcase classname="Login functionality" name="Login with invalid Password" time="4.059">
+    <failure type="Error" message="[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed&#xA;&#xA;Locator: locator('//h3[text()=\'Ninza-HRM\']')&#xA;Expected: [32m&quot;Ninza-HRM&quot;[39m&#xA;Timeout: 2000ms&#xA;Error: element(s) not found&#xA;&#xA;Call log:&#xA;[2m  - Expect &quot;to.have.text&quot; with timeout 2000ms[22m&#xA;[2m  - waiting for locator('//h3[text()=\'Ninza-HRM\']')[22m&#xA;"><![CDATA[    at Proxy.<anonymous> (C:\Users\User\Desktop\playwright-cucumber-framework\node_modules\playwright\lib\matchers\expect.js:213:24)
+    at HomePage.<anonymous> (C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:13:7)
+    at C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:8:71
+    at __awaiter (C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:4:12)
+    at HomePage.verifyHomePage (C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:19:16)
+    at World.<anonymous> (C:\Users\User\Desktop\playwright-cucumber-framework\src\step-definitions\example.steps.ts:48:18)
+    at C:\Users\User\Desktop\playwright-cucumber-framework\src\step-definitions\example.steps.ts:8:71]]></failure>
+    <system-out><![CDATA[Given I navigate to login page..............................................passed
+When I login with "invalidPass" credentials.................................passed
+Then I should not see the home page.........................................failed]]></system-out>
+  </testcase>
+  <testcase classname="Login functionality" name="Login with Invalid credentials" time="3.931">
+    <failure type="Error" message="[2mexpect([22m[31mlocator[39m[2m).[22mtoHaveText[2m([22m[32mexpected[39m[2m)[22m failed&#xA;&#xA;Locator: locator('//h3[text()=\'Ninza-HRM\']')&#xA;Expected: [32m&quot;Ninza-HRM&quot;[39m&#xA;Timeout: 2000ms&#xA;Error: element(s) not found&#xA;&#xA;Call log:&#xA;[2m  - Expect &quot;to.have.text&quot; with timeout 2000ms[22m&#xA;[2m  - waiting for locator('//h3[text()=\'Ninza-HRM\']')[22m&#xA;"><![CDATA[    at Proxy.<anonymous> (C:\Users\User\Desktop\playwright-cucumber-framework\node_modules\playwright\lib\matchers\expect.js:213:24)
+    at HomePage.<anonymous> (C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:13:7)
+    at C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:8:71
+    at __awaiter (C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:4:12)
+    at HomePage.verifyHomePage (C:\Users\User\Desktop\playwright-cucumber-framework\src\pages\home.page.ts:19:16)
+    at World.<anonymous> (C:\Users\User\Desktop\playwright-cucumber-framework\src\step-definitions\example.steps.ts:48:18)
+    at C:\Users\User\Desktop\playwright-cucumber-framework\src\step-definitions\example.steps.ts:8:71]]></failure>
+    <system-out><![CDATA[Given I navigate to login page..............................................passed
+When I login with "invalid" credentials.....................................passed
+Then I should not see the home page.........................................failed]]></system-out>
+  </testcase>
+</testsuite>
