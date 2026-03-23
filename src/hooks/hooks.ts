@@ -1,4 +1,6 @@
 import axios from "axios";
+import fs from "fs";
+const hierarchyFile = "qtest-hierarchy.json";
 import {
   BeforeAll,
   Before,
@@ -151,7 +153,7 @@ async function createTestSuite(cycleId: number) {
   return res.data.id;
 }
 
-async function createTestRun(
+/* async function createTestRun(
   suiteId: number,
   testCaseId: number,
   title: string,
@@ -166,6 +168,45 @@ async function createTestRun(
   );
 
   return res.data.id;
+} */
+
+async function createTestRun(
+  suiteId: number,
+  testCaseId: number,
+  title: string,
+) {
+  const runName = `Playwright Run - ${title}`;
+
+  // Fetch all runs in this suite
+  const res = await axios.get(
+    `${QTEST_BASE_URL}/api/v3/projects/${PROJECT_ID}/test-runs?parentType=test-suite&parentId=${suiteId}`,
+    { headers }
+  );
+
+  const runs = Array.isArray(res.data.items) ? res.data.items : [];
+
+  // Find existing run by name
+  const existingRun = runs.filter(
+    (r: any) => r.name === runName
+  )[0];
+
+  if (existingRun) {
+    console.log(`Using existing test run for "${title}" with ID: ${existingRun.id}`);
+    return existingRun.id;
+  }
+
+  // Create new run if not found
+  const createRes = await axios.post(
+    `${QTEST_BASE_URL}/api/v3/projects/${PROJECT_ID}/test-runs?parentId=${suiteId}&parentType=test-suite`,
+    {
+      name: runName,
+      test_case: { id: testCaseId },
+    },
+    { headers }
+  );
+
+  console.log(`Created new test run for "${title}" with ID: ${createRes.data.id}`);
+  return createRes.data.id;
 }
 
 async function createTestLog(runId: number, status: number, note = "") {
@@ -188,6 +229,21 @@ async function createTestLog(runId: number, status: number, note = "") {
 
 /* Before All Scenarios */
 BeforeAll(async function () {
+  let hierarchyExists = false;
+
+  // STEP 1: Check if file exists
+  if (fs.existsSync(hierarchyFile)) {
+    const data = JSON.parse(fs.readFileSync(hierarchyFile, "utf-8"));
+
+    cycleId = data.cycleId;
+    suiteId = data.suiteId;
+
+    hierarchyExists = true;
+
+    console.log("Using existing cycle & suite from file");
+  }
+
+  // STEP 2: Always resolve base data
   PROJECT_ID = await fetchProjectId();
   console.log(`Resolved Project ID: ${PROJECT_ID}`);
 
@@ -197,8 +253,18 @@ BeforeAll(async function () {
   moduleId = await fetchModuleId();
   await fetchTestCases(moduleId);
 
-  cycleId = await createTestCycle();
-  suiteId = await createTestSuite(cycleId);
+  // STEP 3: Create only if NOT exists
+  if (!hierarchyExists) {
+    cycleId = await createTestCycle();
+    suiteId = await createTestSuite(cycleId);
+
+    fs.writeFileSync(
+      hierarchyFile,
+      JSON.stringify({ cycleId, suiteId }, null, 2)
+    );
+
+    console.log("Created new cycle & suite and saved to file");
+  }
 
   console.log("Cycle, Suite & Test Case Map Ready");
 });
@@ -209,7 +275,9 @@ Before(async function (this: CustomWorld, scenario) {
   this.context = await this.browser.newContext();
   this.page = await this.context.newPage();
 
-  const title = scenario.pickle.name;
+  // Normalize title
+  const rawTitle = scenario.pickle.name;
+  const title = rawTitle.replace(/\(retry.*\)/i, "").trim();
 
   const testCaseId = testCaseMap.get(title);
 

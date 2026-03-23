@@ -1,1 +1,3 @@
 node_modules
+qtest-hierarchy.json
+reports/*.xml
